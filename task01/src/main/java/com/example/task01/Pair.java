@@ -1,5 +1,51 @@
 package com.example.task01;
 
-public class Pair {
-    // TODO напишите реализацию
+import java.util.Objects;
+import java.util.function.BiConsumer;
+
+public class Pair<T, V> {
+    private final T first;
+    private final V second;
+
+    private Pair(T first, V second){
+        this.first = first;
+        this.second = second;
+    }
+
+    public static <T, V> Pair<T, V> of(T one, V two){
+        return new Pair<>(one, two);
+    }
+
+    public T getFirst(){
+        return first;
+    }
+
+    public V getSecond(){
+        return second;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Pair<?, ?> pair = (Pair<?, ?>) o;
+        return Objects.equals(first, pair.first) &&
+                Objects.equals(second, pair.second);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(first, second);
+    }
+
+    public void ifPresent(BiConsumer<? super T, ? super V> consumer) {
+        if (first == null || second == null){
+            return;
+        }
+        consumer.accept(first, second);
+    }
 }
